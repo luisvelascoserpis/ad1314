@@ -1,5 +1,6 @@
-using System;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 
 namespace Serpis.Ad
 {
@@ -35,9 +36,20 @@ namespace Serpis.Ad
 			Console.WriteLine ("Ok"); 
 		}
 		
-		private static string[] getColumnNames(MySqlDataReader mySqlDataReader) {
-			//string[] columnNames = new string[ mySqlDataReader.FieldCount ];
-			return new string[]{};
+		private static IEnumerable<string> getColumnNames(MySqlDataReader mySqlDataReader) {
+			int fieldCount = mySqlDataReader.FieldCount;
+			string[] columnNames = new string[ fieldCount ];
+			for (int index = 0; index < fieldCount; index++)
+				columnNames[index] = mySqlDataReader.GetName (index);
+			return columnNames;
+		}
+
+		private static IEnumerable<string> getColumnNames2(MySqlDataReader mySqlDataReader) {
+			int fieldCount = mySqlDataReader.FieldCount;
+			List<string> columnNames = new List<string>();
+			for (int index = 0; index < fieldCount; index++)
+				columnNames.Add ( mySqlDataReader.GetName(index) );
+			return columnNames;
 		}
 	}
 }
