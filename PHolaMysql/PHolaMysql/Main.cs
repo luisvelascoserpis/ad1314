@@ -20,20 +20,31 @@ namespace Serpis.Ad
 			
 			//select * from categoria
 			MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+			//mySqlCommand.CommandText = "select * from articulo where id=0";
 			mySqlCommand.CommandText = "select * from articulo";
 			MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader ();
 			
-//			int fieldCount = mySqlDataReader.FieldCount;
-//			for (int index = 0; index < fieldCount; index++)
-//				Console.Write ( mySqlDataReader.GetName( index ) + "  " ) ;
-//			
-//			Console.WriteLine ();
-			
 			Console.WriteLine( string.Join("  ", getColumnNames(mySqlDataReader)) );
+			
+			//visualizar datos...
+			while (mySqlDataReader.Read ()) {
+				Console.WriteLine( getLine(mySqlDataReader) );
+			}
 			
 			mySqlDataReader.Close();
 			mySqlConnection.Close ();
 			Console.WriteLine ("Ok"); 
+		}
+		
+		private static string getLine(MySqlDataReader mySqlDataReader) {
+			string line = "";
+			for (int index = 0; index < mySqlDataReader.FieldCount; index++) {
+				object value = mySqlDataReader.GetValue (index);
+				if (value is DBNull)
+					value = "null";
+				line = line + value + "  ";
+			}
+			return line;
 		}
 		
 		private static IEnumerable<string> getColumnNames(MySqlDataReader mySqlDataReader) {
