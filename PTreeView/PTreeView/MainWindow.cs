@@ -1,6 +1,7 @@
 using Gtk;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 
 public partial class MainWindow: Gtk.Window
 {	
@@ -13,26 +14,49 @@ public partial class MainWindow: Gtk.Window
 		mySqlConnection = new MySqlConnection("Server=localhost;Database=dbprueba;User Id=root;Password=sistemas");
 		mySqlConnection.Open ();
 		
-		treeView.AppendColumn ("id", new CellRendererText(), "text", 0);
-		treeView.AppendColumn ("nombre", new CellRendererText(), "text", 1);
-		treeView.AppendColumn ("categoria", new CellRendererText(), "text", 2);
-		treeView.AppendColumn ("precio", new CellRendererText(), "text", 3);
+		MySqlCommand mySqlCommand = mySqlConnection.CreateCommand ();
+		mySqlCommand.CommandText = 
+			"select a.id, a.nombre, c.nombre as categoria, a.precio " +
+			"from articulo a left join categoria c " +
+			"on a.categoria = c.id ";
 		
-		int fieldCount = 4;
+		MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+		
+		string[] columnNames = getColumnNames(mySqlDataReader);
+		
+		appendColumns(columnNames);
+		
+		ListStore listStore = createListStore(mySqlDataReader.FieldCount);
+
+		while (mySqlDataReader.Read ()) {
+			List<string> values = new List<string>();
+			for (int index = 0; index < mySqlDataReader.FieldCount; index++)
+				values.Add ( mySqlDataReader.GetValue (index).ToString() );
+			listStore.AppendValues(values.ToArray());
+		}
+		mySqlDataReader.Close ();
+		
+		treeView.Model = listStore;
+	}
+	
+	private string[] getColumnNames(MySqlDataReader mySqlDataReader) {
+		List<string> columnNames = new List<string>();
+		for (int index = 0; index < mySqlDataReader.FieldCount; index++)
+			columnNames.Add (mySqlDataReader.GetName (index));
+		return columnNames.ToArray ();
+	}
+	
+	private void appendColumns(string[] columnNames) {
+		int index = 0;
+		foreach (string columnName in columnNames) 
+			treeView.AppendColumn (columnName, new CellRendererText(), "text", index++);
+	}
+	
+	private ListStore createListStore(int fieldCount) {
 		Type[] types = new Type[fieldCount];
 		for (int index = 0; index < fieldCount; index++)
 			types[index] = typeof(string);
-		
-		//ListStore listStore = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string));
-		ListStore listStore = new ListStore(types);
-		//listStore.AppendValues ("1", "uno", "1", "1.5");
-		string[] values = new string[]{"1", "uno", "1", "1.5"};
-		listStore.AppendValues(values);
-		
-		listStore.AppendValues ("2", "dos");
-		listStore.AppendValues ("3", "tres");
-		
-		treeView.Model = listStore;
+		return new ListStore(types);
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
