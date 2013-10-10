@@ -37,6 +37,17 @@ public partial class MainWindow: Gtk.Window
 		mySqlDataReader.Close ();
 		
 		treeView.Model = listStore;
+		
+		treeView.Selection.Changed += delegate {
+			TreeIter treeIter;
+			Console.WriteLine ("============");
+			if (treeView.Selection.GetSelected (out treeIter)) {
+				Console.WriteLine ("listStore.GetPath(treeIter)=" + listStore.GetPath(treeIter) );
+				Console.WriteLine ("listStore.GetValue(treeIter, 0)=" + listStore.GetValue(treeIter, 0));
+				Console.WriteLine ("listStore.GetValue(treeIter, 1)=" + listStore.GetValue(treeIter, 1));
+			} else
+				Console.WriteLine ("Ninguno seleccionado");
+		};
 	}
 	
 	private string[] getColumnNames(MySqlDataReader mySqlDataReader) {
