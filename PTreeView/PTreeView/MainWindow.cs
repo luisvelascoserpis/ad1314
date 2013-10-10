@@ -38,16 +38,34 @@ public partial class MainWindow: Gtk.Window
 		
 		treeView.Model = listStore;
 		
-		treeView.Selection.Changed += delegate {
-			TreeIter treeIter;
-			Console.WriteLine ("============");
-			if (treeView.Selection.GetSelected (out treeIter)) {
-				Console.WriteLine ("listStore.GetPath(treeIter)=" + listStore.GetPath(treeIter) );
-				Console.WriteLine ("listStore.GetValue(treeIter, 0)=" + listStore.GetValue(treeIter, 0));
-				Console.WriteLine ("listStore.GetValue(treeIter, 1)=" + listStore.GetValue(treeIter, 1));
-			} else
-				Console.WriteLine ("Ninguno seleccionado");
+		editAction.Sensitive = false;
+		
+		editAction.Activated += delegate {
+			MessageDialog messageDialog = new MessageDialog(this,
+                DialogFlags.DestroyWithParent,
+                MessageType.Info,
+                ButtonsType.Ok,
+                "Este es el mensaje informativo de las 13:00.\n La clase se ha acabado.");
+			messageDialog.Title = "Este es el título del mensaje";
+			messageDialog.Run ();
+			messageDialog.Destroy ();
 		};
+		
+		treeView.Selection.Changed += delegate {
+			editAction.Sensitive = treeView.Selection.CountSelectedRows() > 0;
+		};
+		
+		//treeView.Selection.CountSelectedRows()
+//		treeView.Selection.Changed += delegate {
+//			TreeIter treeIter;
+//			Console.WriteLine ("============");
+//			if (treeView.Selection.GetSelected (out treeIter)) {
+//				Console.WriteLine ("listStore.GetPath(treeIter)=" + listStore.GetPath(treeIter) );
+//				Console.WriteLine ("listStore.GetValue(treeIter, 0)=" + listStore.GetValue(treeIter, 0));
+//				Console.WriteLine ("listStore.GetValue(treeIter, 1)=" + listStore.GetValue(treeIter, 1));
+//			} else
+//				Console.WriteLine ("Ninguno seleccionado");
+//		};
 	}
 	
 	private string[] getColumnNames(MySqlDataReader mySqlDataReader) {
