@@ -41,11 +41,18 @@ public partial class MainWindow: Gtk.Window
 		editAction.Sensitive = false;
 		
 		editAction.Activated += delegate {
+			if (treeView.Selection.CountSelectedRows() == 0)
+				return;
+			TreeIter treeIter;
+			treeView.Selection.GetSelected(out treeIter);
+			object id = listStore.GetValue (treeIter, 0);
+			object nombre = listStore.GetValue (treeIter, 1);
+			
 			MessageDialog messageDialog = new MessageDialog(this,
                 DialogFlags.DestroyWithParent,
                 MessageType.Info,
                 ButtonsType.Ok,
-                "Este es el mensaje informativo de las 13:00.\n La clase se ha acabado.");
+                "Seleccionado Id={0} Nombre={1}", id, nombre);
 			messageDialog.Title = "Este es el título del mensaje";
 			messageDialog.Run ();
 			messageDialog.Destroy ();
