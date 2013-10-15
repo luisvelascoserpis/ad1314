@@ -5,6 +5,7 @@ public partial class MainWindow
 {
 	private global::Gtk.UIManager UIManager;
 	private global::Gtk.Action editAction;
+	private global::Gtk.Action deleteAction;
 	private global::Gtk.VBox vbox1;
 	private global::Gtk.Toolbar toolbar;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
@@ -19,6 +20,9 @@ public partial class MainWindow
 		this.editAction = new global::Gtk.Action ("editAction", global::Mono.Unix.Catalog.GetString ("_Editar"), null, "gtk-edit");
 		this.editAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Editar");
 		w1.Add (this.editAction, null);
+		this.deleteAction = new global::Gtk.Action ("deleteAction", global::Mono.Unix.Catalog.GetString ("_Eliminar"), null, "gtk-delete");
+		this.deleteAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("_Eliminar");
+		w1.Add (this.deleteAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -29,7 +33,7 @@ public partial class MainWindow
 		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='editAction' action='editAction'/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'><toolitem name='editAction' action='editAction'/><toolitem name='deleteAction' action='deleteAction'/></toolbar></ui>");
 		this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
 		this.toolbar.Name = "toolbar";
 		this.toolbar.ShowArrow = false;

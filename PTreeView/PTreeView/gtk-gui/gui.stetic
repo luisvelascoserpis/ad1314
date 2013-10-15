@@ -16,6 +16,12 @@
         <property name="ShortLabel" translatable="yes">_Editar</property>
         <property name="StockId">gtk-edit</property>
       </action>
+      <action id="deleteAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Eliminar</property>
+        <property name="ShortLabel" translatable="yes">_Eliminar</property>
+        <property name="StockId">gtk-delete</property>
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
@@ -31,6 +37,7 @@
             <property name="ShowArrow">False</property>
             <node name="toolbar" type="Toolbar">
               <node type="Toolitem" action="editAction" />
+              <node type="Toolitem" action="deleteAction" />
             </node>
           </widget>
           <packing>
