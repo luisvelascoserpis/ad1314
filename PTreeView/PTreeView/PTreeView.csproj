@@ -61,7 +61,6 @@
       <Private>False</Private>
       <Package>mysql-connector-net</Package>
     </Reference>
-    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -74,7 +73,12 @@
     <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="TreeViewHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\PSerpisAd\PSerpisAd.csproj">
+      <Project>{4BED7C5C-9A6F-4851-BCD3-9504820FD60A}</Project>
+      <Name>PSerpisAd</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
