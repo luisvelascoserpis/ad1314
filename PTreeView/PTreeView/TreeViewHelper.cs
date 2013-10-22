@@ -1,7 +1,7 @@
 using Gtk;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Serpis.Ad
 {
@@ -9,22 +9,22 @@ namespace Serpis.Ad
 	{
 		private TreeView treeView;
 		private ListStore listStore;
-		public TreeViewHelper (TreeView treeView, MySqlConnection mySqlConnection, string selectSql)
+		public TreeViewHelper (TreeView treeView, IDbConnection dbConnection, string selectSql)
 		{
 			this.treeView = treeView;
-			MySqlCommand mySqlCommand = mySqlConnection.CreateCommand ();
-			mySqlCommand.CommandText = selectSql;
-			MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
-			string[] columnNames = getColumnNames(mySqlDataReader);
+			IDbCommand dbCommand = dbConnection.CreateCommand ();
+			dbCommand.CommandText = selectSql;
+			IDataReader dataReader = dbCommand.ExecuteReader();
+			string[] columnNames = getColumnNames(dataReader);
 			appendColumns(columnNames);
-			listStore = createListStore(mySqlDataReader.FieldCount);
-			while (mySqlDataReader.Read ()) {
+			listStore = createListStore(dataReader.FieldCount);
+			while (dataReader.Read ()) {
 				List<string> values = new List<string>();
-				for (int index = 0; index < mySqlDataReader.FieldCount; index++)
-					values.Add ( mySqlDataReader.GetValue (index).ToString() );
+				for (int index = 0; index < dataReader.FieldCount; index++)
+					values.Add ( dataReader.GetValue (index).ToString() );
 				listStore.AppendValues(values.ToArray());
 			}
-			mySqlDataReader.Close ();
+			dataReader.Close ();
 			treeView.Model = listStore;
 		}
 		
@@ -32,10 +32,10 @@ namespace Serpis.Ad
 			get {return listStore;}
 		}
 		
-		private string[] getColumnNames(MySqlDataReader mySqlDataReader) {
+		private string[] getColumnNames(IDataReader dataReader) {
 			List<string> columnNames = new List<string>();
-			for (int index = 0; index < mySqlDataReader.FieldCount; index++)
-				columnNames.Add (mySqlDataReader.GetName (index));
+			for (int index = 0; index < dataReader.FieldCount; index++)
+				columnNames.Add (dataReader.GetName (index));
 			return columnNames.ToArray ();
 		}
 	
