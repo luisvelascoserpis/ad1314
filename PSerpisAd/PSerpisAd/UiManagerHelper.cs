@@ -19,6 +19,8 @@ namespace Serpis.Ad
 				uIManager.RemoveActionGroup(this.actionGroup);
 			}
 			this.actionGroup = actionGroup;
+			if (actionGroup == null)
+				return;
 			uIManager.InsertActionGroup(actionGroup, 0);
 			mergeId = uIManager.AddUiFromString (getUi(actionGroup));
 		}

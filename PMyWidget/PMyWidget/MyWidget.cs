@@ -21,7 +21,6 @@ namespace Serpis.Ad
 			treeView.Model = listStore;
 			
 			treeView.Selection.Changed += delegate {
-				SelectedChanged(this, EventArgs.Empty);
 			};
 		}
 		
@@ -29,24 +28,10 @@ namespace Serpis.Ad
 			get {return TreeView;}
 		}
 		
-		#region IEntityListView implementation
-		public abstract void New ();
 
-		public abstract void Edit ();
-
-		public abstract void Delete ();
-
-		public abstract void Refresh ();
-
-		public bool HasSelected {
-			get {
-				return treeView.Selection.CountSelectedRows() > 0;
-			}
+		public ActionGroup ActionGroup {
+			get {return null;}
 		}
-		
-		public event EventHandler SelectedChanged;
-		#endregion
-
 	}
 }
 

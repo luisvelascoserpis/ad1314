@@ -17,21 +17,12 @@ public partial class MainWindow: Gtk.Window
 		notebook.AppendPage ( categoriaListView, new Label("Categorias"));
 		
 		notebook.SwitchPage += delegate {
-			IEntityListView entityListView = (IEntityListView)notebook.CurrentPageWidget;
-			mainButton.Sensitive = entityListView.HasSelected;
+			//IEntityListView entityListView = (IEntityListView)notebook.CurrentPageWidget;
 		};
 		
-		articuloListView.SelectedChanged += delegate {
-			mainButton.Sensitive = articuloListView.HasSelected;
-		};
-		
-		categoriaListView.SelectedChanged += delegate {
-			mainButton.Sensitive = categoriaListView.HasSelected;
-		};
 		
 		mainButton.Clicked += delegate {
-			IEntityListView entityListView = (IEntityListView)notebook.CurrentPageWidget;
-			entityListView.Edit ();
+			//IEntityListView entityListView = (IEntityListView)notebook.CurrentPageWidget;
 		};
 	}
 	

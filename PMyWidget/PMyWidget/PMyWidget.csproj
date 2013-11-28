@@ -57,6 +57,9 @@
       <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="Mono.Posix" />
+    <Reference Include="PSerpisAd">
+      <HintPath>..\..\PSerpisAd\PSerpisAd\bin\Debug\PSerpisAd.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -71,7 +74,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="MyWidget.cs" />
     <Compile Include="gtk-gui\Serpis.Ad.MyWidget.cs" />
-    <Compile Include="IEntityListView.cs" />
     <Compile Include="ArticuloListView.cs" />
     <Compile Include="CategoriaListView.cs" />
   </ItemGroup>
