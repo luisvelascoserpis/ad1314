@@ -8,22 +8,20 @@ public partial class MainWindow: Gtk.Window
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
-		mainButton.Sensitive = false;
-
+		
 		ArticuloListView articuloListView = new ArticuloListView();
 		CategoriaListView categoriaListView = new CategoriaListView();
 		
 		notebook.AppendPage ( articuloListView, new Label("Articulos"));
 		notebook.AppendPage ( categoriaListView, new Label("Categorias"));
 		
+		UiManagerHelper uiManagerHelper = new UiManagerHelper(UIManager);
+		uiManagerHelper.SetActionGroup(articuloListView.ActionGroup);
 		notebook.SwitchPage += delegate {
-			//IEntityListView entityListView = (IEntityListView)notebook.CurrentPageWidget;
+			IEntityListView entityListView = (IEntityListView)notebook.CurrentPageWidget;
+			uiManagerHelper.SetActionGroup(entityListView.ActionGroup);
 		};
 		
-		
-		mainButton.Clicked += delegate {
-			//IEntityListView entityListView = (IEntityListView)notebook.CurrentPageWidget;
-		};
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)

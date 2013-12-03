@@ -3,14 +3,19 @@
 
 public partial class MainWindow
 {
+	private global::Gtk.UIManager UIManager;
 	private global::Gtk.VBox vbox3;
-	private global::Gtk.Button mainButton;
+	private global::Gtk.Toolbar toolbar;
 	private global::Gtk.Notebook notebook;
 	
 	protected virtual void Build ()
 	{
 		global::Stetic.Gui.Initialize (this);
 		// Widget MainWindow
+		this.UIManager = new global::Gtk.UIManager ();
+		global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
+		this.UIManager.InsertActionGroup (w1, 0);
+		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
@@ -19,24 +24,23 @@ public partial class MainWindow
 		this.vbox3.Name = "vbox3";
 		this.vbox3.Spacing = 6;
 		// Container child vbox3.Gtk.Box+BoxChild
-		this.mainButton = new global::Gtk.Button ();
-		this.mainButton.CanFocus = true;
-		this.mainButton.Name = "mainButton";
-		this.mainButton.UseUnderline = true;
-		this.mainButton.Label = global::Mono.Unix.Catalog.GetString ("Editar");
-		this.vbox3.Add (this.mainButton);
-		global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.mainButton]));
-		w1.Position = 0;
-		w1.Expand = false;
-		w1.Fill = false;
+		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'/></ui>");
+		this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
+		this.toolbar.Name = "toolbar";
+		this.toolbar.ShowArrow = false;
+		this.vbox3.Add (this.toolbar);
+		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.toolbar]));
+		w2.Position = 0;
+		w2.Expand = false;
+		w2.Fill = false;
 		// Container child vbox3.Gtk.Box+BoxChild
 		this.notebook = new global::Gtk.Notebook ();
 		this.notebook.CanFocus = true;
 		this.notebook.Name = "notebook";
 		this.notebook.CurrentPage = -1;
 		this.vbox3.Add (this.notebook);
-		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.notebook]));
-		w2.Position = 1;
+		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.notebook]));
+		w3.Position = 1;
 		this.Add (this.vbox3);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
