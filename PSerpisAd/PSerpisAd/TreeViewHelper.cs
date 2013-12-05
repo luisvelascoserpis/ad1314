@@ -9,23 +9,28 @@ namespace Serpis.Ad
 	{
 		private TreeView treeView;
 		private ListStore listStore;
+		private IDbCommand dbCommand;
 		public TreeViewHelper (TreeView treeView, IDbConnection dbConnection, string selectSql)
 		{
 			this.treeView = treeView;
-			IDbCommand dbCommand = dbConnection.CreateCommand ();
+			dbCommand = dbConnection.CreateCommand ();
 			dbCommand.CommandText = selectSql;
 			IDataReader dataReader = dbCommand.ExecuteReader();
 			string[] columnNames = getColumnNames(dataReader);
 			appendColumns(columnNames);
 			listStore = createListStore(dataReader.FieldCount);
+			fillListStore(dataReader);
+			dataReader.Close ();
+			treeView.Model = listStore;
+		}
+		
+		private void fillListStore(IDataReader dataReader) {
 			while (dataReader.Read ()) {
 				List<string> values = new List<string>();
 				for (int index = 0; index < dataReader.FieldCount; index++)
 					values.Add ( dataReader.GetValue (index).ToString() );
 				listStore.AppendValues(values.ToArray());
 			}
-			dataReader.Close ();
-			treeView.Model = listStore;
 		}
 		
 		public ListStore ListStore {
@@ -33,8 +38,10 @@ namespace Serpis.Ad
 		}
 		
 		public void Refresh() {
-			//TODO implementar
-				throw  new NotImplementedException();
+			listStore.Clear ();
+			IDataReader dataReader = dbCommand.ExecuteReader();
+			fillListStore(dataReader);
+			dataReader.Close ();
 		}
 		
 		/// <summary>
@@ -43,8 +50,11 @@ namespace Serpis.Ad
 		/// </summary>
 		public string Id {
 			get {
-				//TODO implementar
-				throw  new NotImplementedException();
+				TreeIter treeIter;
+				if (treeView.Selection.GetSelected(out treeIter))
+					return listStore.GetValue (treeIter, 0).ToString(); //Id suponemos que la column 0
+				//else
+				return string.Empty;
 			}
 		}
 		
