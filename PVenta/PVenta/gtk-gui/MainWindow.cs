@@ -6,7 +6,7 @@ public partial class MainWindow
 	private global::Gtk.UIManager UIManager;
 	private global::Gtk.Action newAction;
 	private global::Gtk.VBox vbox1;
-	private global::Gtk.Button mainButton;
+	private global::Gtk.Toolbar toolbar;
 	private global::Gtk.Notebook notebook;
 	
 	protected virtual void Build ()
@@ -27,13 +27,12 @@ public partial class MainWindow
 		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.mainButton = new global::Gtk.Button ();
-		this.mainButton.CanFocus = true;
-		this.mainButton.Name = "mainButton";
-		this.mainButton.UseUnderline = true;
-		this.mainButton.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
-		this.vbox1.Add (this.mainButton);
-		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.mainButton]));
+		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar'/></ui>");
+		this.toolbar = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar")));
+		this.toolbar.Name = "toolbar";
+		this.toolbar.ShowArrow = false;
+		this.vbox1.Add (this.toolbar);
+		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.toolbar]));
 		w2.Position = 0;
 		w2.Expand = false;
 		w2.Fill = false;
@@ -44,7 +43,7 @@ public partial class MainWindow
 		this.notebook.CurrentPage = -1;
 		this.vbox1.Add (this.notebook);
 		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook]));
-		w3.Position = 2;
+		w3.Position = 1;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
