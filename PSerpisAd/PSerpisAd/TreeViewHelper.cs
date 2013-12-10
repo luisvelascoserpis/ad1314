@@ -58,6 +58,16 @@ namespace Serpis.Ad
 			}
 		}
 		
+		public bool HasSelected {
+			get {
+				//TODO implementar
+				throw new NotImplementedException();
+			}
+		}
+
+		//TODO implementar
+		public event EventHandler Changed;
+		
 		private string[] getColumnNames(IDataReader dataReader) {
 			List<string> columnNames = new List<string>();
 			for (int index = 0; index < dataReader.FieldCount; index++)
