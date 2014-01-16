@@ -78,6 +78,8 @@
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CategoriaListView.cs" />
+    <Compile Include="CategoriaView.cs" />
+    <Compile Include="gtk-gui\Serpis.Ad.CategoriaView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

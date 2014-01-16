@@ -14,6 +14,17 @@ namespace Serpis.Ad
 			};			
 			actionGroup.Add (refreshAction);
 			
+			Gtk.Action editAction = new Gtk.Action("editAction", null, null, Stock.Edit);
+			editAction.Activated += delegate {
+				CategoriaView categoriaView = new CategoriaView(treeViewHelper.Id);
+				categoriaView.Show ();
+			};			
+			actionGroup.Add (editAction);
+			
+			editAction.Sensitive = false;
+			treeView.Selection.Changed += delegate {
+				editAction.Sensitive = treeView.Selection.CountSelectedRows() > 0;
+			};
 		}
 	}
 }
