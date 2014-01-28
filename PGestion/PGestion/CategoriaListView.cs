@@ -18,10 +18,9 @@ namespace Serpis.Ad
 			Gtk.Action editAction = new Gtk.Action("editAction", null, null, Stock.Edit);
 			editAction.Activated += delegate {
 				Categoria categoria = Categoria.Load (treeViewHelper.Id);
-				Console.WriteLine("categoria.Id={0}, categoria.Nombre={1}", 
-				                  categoria.Id, categoria.Nombre);
-				
-				
+				CategoriaView categoriaView = new CategoriaView();
+				new CategoriaController(categoria, categoriaView);
+				categoriaView.Show ();
 			};
 			actionGroup.Add (editAction);
 			

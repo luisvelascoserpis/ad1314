@@ -1,8 +1,24 @@
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 
+
 namespace Serpis.Ad
 {
+	class MainClass
+	{
+		public static void Main (string[] args)
+		{
+			App.Instance.DbConnection = new MySqlConnection("Server=localhost;Database=dbprueba;User Id=root;Password=sistemas");
+			Categoria categoria = Categoria.Load ("2");
+			
+			categoria.Nombre = DateTime.Now.ToString ();
+			
+			Categoria.Save(categoria);			
+			
+		}
+	}
+
 	public class Categoria
 	{
 		//public int Id {	get; set; }
@@ -18,7 +34,7 @@ namespace Serpis.Ad
 			get {return nombre;}
 			set {nombre = value;}
 		}
-						
+		
 		public static Categoria Load(string id) {
 			IDbCommand selectDbCommand = App.Instance.DbConnection.CreateCommand ();
 			selectDbCommand.CommandText = "select nombre from categoria where id=" + id;
@@ -28,6 +44,7 @@ namespace Serpis.Ad
 			Categoria categoria = new Categoria();
 			categoria.Id = int.Parse (id);
 			categoria.Nombre = dataReader["nombre"].ToString();
+			
 			dataReader.Close ();
 			return categoria;
 		}
@@ -38,6 +55,7 @@ namespace Serpis.Ad
 			DbCommandUtil.AddParameter (updateDbCommand, "nombre", categoria.Nombre);
 			updateDbCommand.ExecuteNonQuery ();			
 		}
+		
 	}
+	
 }
-
