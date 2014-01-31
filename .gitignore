@@ -110,6 +110,7 @@ UpgradeLog*.XML
 # Para Monodevelop:
 *.userprefs
 *.pidb
+test-results/
 
 # Para gedit
 *~

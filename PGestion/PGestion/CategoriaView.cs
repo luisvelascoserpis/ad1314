@@ -19,6 +19,7 @@ namespace Serpis.Ad
 			};
 		}
 		
+		[Model]
 		public string Nombre {
 			get {return entryNombre.Text;}
 			set {entryNombre.Text = value;}
