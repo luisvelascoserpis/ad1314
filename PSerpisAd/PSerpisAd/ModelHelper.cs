@@ -32,9 +32,9 @@ namespace Serpis.Ad
 			object obj = Activator.CreateInstance(type);
 			foreach (PropertyInfo propertyInfo in type.GetProperties ()) {
 				if (propertyInfo.IsDefined (typeof(KeyAttribute), true))
-					propertyInfo.SetValue(obj, id, null); //TODO convert al tipo de destino
+					propertyInfo.SetValue(obj, Convert.ChangeType(id, propertyInfo.PropertyType), null);
 				else if (propertyInfo.IsDefined (typeof(FieldAttribute), true))
-					propertyInfo.SetValue(obj, dataReader[propertyInfo.Name.ToLower()], null); //TODO convert al tipo de destino
+					propertyInfo.SetValue(obj, Convert.ChangeType(dataReader[propertyInfo.Name.ToLower()],propertyInfo.PropertyType), null);
 			}
 			dataReader.Close ();
 			return obj;
